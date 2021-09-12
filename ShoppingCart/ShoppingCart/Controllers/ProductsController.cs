@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Abstraction;
+using Data.Models;
+using Microsoft.AspNetCore.Mvc;
 using SchoolOf.Dtos;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Controllers
@@ -11,21 +11,33 @@ namespace ShoppingCart.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ProductsController(IUnitOfWork unitOfWork)
+        {
+            this._unitOfWork = unitOfWork;
+        }
+
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ProductDto>), 200)]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts(int pageNumber, int pageSize)
         {
             var myListOfProducts = new List<ProductDto>();
-            myListOfProducts.Add(new ProductDto
-            {
-                Category = "test category",
-                Description = "test description",
-                Id = 10,
-                Image = "no image yet",
-                Name = "test product",
-                Price = 100m
+            var productsFromDb = this._unitOfWork.GetRepository<Product>().Find(product => !product.IsDeleted);
 
-            });
+            foreach (var p in productsFromDb)
+            {
+                myListOfProducts.Add(new ProductDto
+                {
+                    Category = p.Category,
+                    Description = p.Description,
+                    Id = p.Id,
+                    Image = p.Image,
+                    Name = p.Name,
+                    Price = p.Price
+                });
+            }
+
             return Ok(myListOfProducts);
         }
     }
