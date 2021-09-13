@@ -3,6 +3,7 @@ using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using SchoolOf.Dtos;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Controllers
@@ -20,10 +21,16 @@ namespace ShoppingCart.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ProductDto>), 200)]
-        public async Task<IActionResult> GetProducts(int pageNumber, int pageSize)
+        public async Task<IActionResult> GetProducts(int pageNumber = 1, int pageSize = 10)
         {
             var myListOfProducts = new List<ProductDto>();
-            var productsFromDb = this._unitOfWork.GetRepository<Product>().Find(product => !product.IsDeleted);
+
+            var productsFromDb = this._unitOfWork
+                .GetRepository<Product>()
+                .Find(product => !product.IsDeleted)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
 
             foreach (var p in productsFromDb)
             {

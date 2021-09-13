@@ -10,6 +10,5 @@ namespace Data.Models
         public decimal Price { get; set; }
         public string Category { get; set; }
         public string Image { get; set; }
-
     }
 }
