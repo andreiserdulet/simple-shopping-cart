@@ -11,8 +11,11 @@ namespace Data
         private readonly DbSettings _dbSettings;
 
         public DbSet<Product> Products { get; set; }
+
         public DbSet<Order> Orders { get; set; }
+
         public DbSet<Cart> Carts { get; set; }
+
         public DatabaseContext(IOptions<DbSettings> optionSettings)
         {
             this._dbSettings = optionSettings.Value;
@@ -41,7 +44,6 @@ namespace Data
 
             modelBuilder.Entity<Cart>().HasKey(x => x.Id);
             modelBuilder.Entity<Cart>().Property(x => x.Status).IsRequired();
-            
         }
     }
 }
