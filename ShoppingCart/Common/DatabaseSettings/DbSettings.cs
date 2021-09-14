@@ -6,6 +6,6 @@ namespace Common.DatabaseSettings
     {
         public string ConnectionString { get; set; }
 
-        
+
     }
 }

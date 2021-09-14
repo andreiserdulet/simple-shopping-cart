@@ -29,20 +29,25 @@ namespace Data
             entityToBeDeleted.IsDeleted = true;
             return this._dbSet.Update(entityToBeDeleted) is not null;
         }
-
         public IEnumerable<T> Find(Expression<Func<T, bool>> searchCriteria)
         {
             return this._dbSet.Where(searchCriteria).ToList();
         }
-
         public IEnumerable<T> Find(Expression<Func<T, bool>> searchCriteria, int pageNumber, int pageSize)
         {
             if (pageNumber < 1)
+            {
                 pageNumber = 1;
+            }
+            
             if (pageSize < 1)
-                pageSize = 1;
+            {
+                pageSize = 10;
+            }
+
             return this._dbSet
                 .Where(searchCriteria)
+                .OrderBy(p => p.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();

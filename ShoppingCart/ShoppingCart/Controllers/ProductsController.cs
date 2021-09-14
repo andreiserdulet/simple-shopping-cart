@@ -23,16 +23,10 @@ namespace ShoppingCart.Controllers
         [ProducesResponseType(typeof(IEnumerable<ProductDto>), 200)]
         public async Task<IActionResult> GetProducts(int pageNumber = 1, int pageSize = 10)
         {
-            var myListOfProducts = new List<ProductDto>();
-
-            var productsFromDb = this._unitOfWork
+            var myListOfProducts = this._unitOfWork
                 .GetRepository<Product>()
-                .Find(product => !product.IsDeleted, pageNumber, pageSize);
-
-
-            foreach (var p in productsFromDb)
-            {
-                myListOfProducts.Add(new ProductDto
+                .Find(product => !product.IsDeleted, pageNumber, pageSize)
+                .Select(p => new ProductDto
                 {
                     Category = p.Category,
                     Description = p.Description,
@@ -41,7 +35,6 @@ namespace ShoppingCart.Controllers
                     Name = p.Name,
                     Price = p.Price
                 });
-            }
 
             return Ok(myListOfProducts);
         }
