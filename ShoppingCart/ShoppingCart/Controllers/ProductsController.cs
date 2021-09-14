@@ -27,10 +27,8 @@ namespace ShoppingCart.Controllers
 
             var productsFromDb = this._unitOfWork
                 .GetRepository<Product>()
-                .Find(product => !product.IsDeleted)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
+                .Find(product => !product.IsDeleted, pageNumber, pageSize);
+
 
             foreach (var p in productsFromDb)
             {

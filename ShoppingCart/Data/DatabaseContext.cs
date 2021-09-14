@@ -2,12 +2,15 @@
 using Data.Models;
 using Data.Seed;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Data
 {
     public class DatabaseContext : DbContext
     {
+        public static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] {
+            new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider()});
         private readonly DbSettings _dbSettings;
 
         public DbSet<Product> Products { get; set; }
@@ -24,6 +27,8 @@ namespace Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(this._dbSettings.ConnectionString);
+            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
