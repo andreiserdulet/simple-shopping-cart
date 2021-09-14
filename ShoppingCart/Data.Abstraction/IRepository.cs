@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Data.Abstraction
@@ -14,6 +15,8 @@ namespace Data.Abstraction
 
         T Update(T entity);
 
-        IEnumerable<T> Find(Func<T, bool> searchCriteria);
+        IEnumerable<T> Find(Expression<Func<T, bool>> searchCriteria);
+        IEnumerable<T> Find(Expression<Func<T, bool>> searchCriteria, int pageNumber, int pageSize);
+
     }
 }
