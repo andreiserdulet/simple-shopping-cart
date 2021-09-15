@@ -35,15 +35,6 @@ namespace Data
         }
         public IEnumerable<T> Find(Expression<Func<T, bool>> searchCriteria, int pageNumber, int pageSize)
         {
-            if (pageNumber < 1)
-            {
-                pageNumber = 1;
-            }
-            
-            if (pageSize < 1)
-            {
-                pageSize = 10;
-            }
 
             return this._dbSet
                 .Where(searchCriteria)

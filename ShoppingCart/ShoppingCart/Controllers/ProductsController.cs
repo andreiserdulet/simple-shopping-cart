@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Exceptions;
 using Data.Abstraction;
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -52,12 +53,12 @@ namespace ShoppingCart.Controllers
         {
             if (pageNumber < 1)
             {
-                throw new ArgumentException("Invalid pageNumber argument.");
+                throw new InvalidParameterException("Invalid pageNumber argument.");
             }
 
             if (pageSize < 1)
             {
-                throw new ArgumentException("Invalid pageSize argument.");
+                throw new InvalidParameterException("Invalid pageSize argument.");
             }
             var productsFromDb = this._unitOfWork
                 .GetRepository<Product>()
