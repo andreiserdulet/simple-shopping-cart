@@ -49,6 +49,10 @@ namespace Data
 
             modelBuilder.Entity<Cart>().HasKey(x => x.Id);
             modelBuilder.Entity<Cart>().Property(x => x.Status).IsRequired();
+
+            modelBuilder.Entity<CartProduct>().HasKey(x => new { x.CartId, x.ProductId});
+            modelBuilder.Entity<CartProduct>().Property(x => x.CartId).IsRequired();
+            modelBuilder.Entity<CartProduct>().Property(x => x.ProductId).IsRequired();
         }
     }
 }
