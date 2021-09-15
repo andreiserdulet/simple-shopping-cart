@@ -5,7 +5,7 @@ namespace Common.Enums
 
     public enum CartStatus
     {
-        Created = 0,
-        Completed = 1
+        Created = 1,
+        Completed = 2
     }
 }
