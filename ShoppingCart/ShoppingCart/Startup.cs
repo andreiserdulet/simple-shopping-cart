@@ -1,13 +1,14 @@
 using Common.DatabaseSettings;
 using Data;
 using Data.Abstraction;
+using Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-
+using ShoppingCart.Filters;
 
 namespace ShoppingCart
 {
@@ -23,7 +24,7 @@ namespace ShoppingCart
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShoppingCart", Version = "v1" });
@@ -34,6 +35,15 @@ namespace ShoppingCart
 
             // unit of work
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<GlobalExceptionFilter>();
+
+            services.AddAutoMapper(typeof(ProductMapperProfile).Assembly);
+
+            services.AddControllers(opt => {
+                opt.Filters.AddService<GlobalExceptionFilter>();
+            });
+
 
             // configuration (options)
             services.Configure<DbSettings>(Configuration.GetSection(nameof(DbSettings)));
