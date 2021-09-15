@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Abstraction", "Data.Ab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Models", "Data.Models\Data.Models.csproj", "{EFAE3F9F-D4A9-4DCD-8713-A425B0BEB6D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{8A2D2B99-D86B-4890-83A4-FD0AFC31DEC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{8A2D2B99-D86B-4890-83A4-FD0AFC31DEC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{32CD5DB0-4145-4D63-A63C-EC4FF091D1CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{32CD5DB0-4145-4D63-A63C-EC4FF091D1CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mappers", "Mappers\Mappers.csproj", "{EB945665-D8E0-40C3-9EDC-424495BEBC8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{32CD5DB0-4145-4D63-A63C-EC4FF091D1CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32CD5DB0-4145-4D63-A63C-EC4FF091D1CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32CD5DB0-4145-4D63-A63C-EC4FF091D1CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB945665-D8E0-40C3-9EDC-424495BEBC8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB945665-D8E0-40C3-9EDC-424495BEBC8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB945665-D8E0-40C3-9EDC-424495BEBC8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB945665-D8E0-40C3-9EDC-424495BEBC8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
