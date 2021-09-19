@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using SchoolOf.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -9,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart.Filters
 {
-
     public class GlobalExceptionFilter : IAsyncExceptionFilter
     {
         private readonly ILogger<GlobalExceptionFilter> _logger;
@@ -25,9 +25,9 @@ namespace ShoppingCart.Filters
             _logger.LogError(context.Exception, guid);
             context.ExceptionHandled = true;
 
-            if (context.Exception is InternalValidationException)
+            if (context.Exception is InvalidParameterException)
             {
-                var ex = (InternalValidationException)context.Exception;
+                var ex = (InvalidParameterException)context.Exception;
                 var response = new ErrorDto
                 {
                     Errors = new List<string> { ex.Message }
@@ -63,10 +63,5 @@ namespace ShoppingCart.Filters
                 };
             }
         }
-    }
-
-    public class ErrorDto
-    {
-        public List<string> Errors { get; set; }
     }
 }

@@ -13,7 +13,8 @@ namespace Mappers
     {
         public CartsMapperProfile()
         {
-            CreateMap<Cart, CartDto>().ForMember(destination => destination.Status, x = > x.MapFrom(SourceMemberNamingConvention => SourceMemberNamingConvention.Status.ToString()));
+            CreateMap<Cart, CartDto>()
+                .ForMember(destination => destination.Status, x => x.MapFrom(source => source.Status.ToString()));
         }
     }
 }
