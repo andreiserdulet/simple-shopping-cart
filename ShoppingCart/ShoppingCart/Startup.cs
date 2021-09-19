@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ShoppingCart.Filters;
+using FluentValidation;
+using Validator;
 
 namespace ShoppingCart
 {
@@ -39,7 +41,7 @@ namespace ShoppingCart
             services.AddScoped<GlobalExceptionFilter>();
 
             services.AddAutoMapper(typeof(ProductMapperProfile).Assembly);
-
+            services.AddValidatorsFromAssembly(typeof(CartProductValidator).Assembly);
             services.AddControllers(opt => {
                 opt.Filters.AddService<GlobalExceptionFilter>();
             });

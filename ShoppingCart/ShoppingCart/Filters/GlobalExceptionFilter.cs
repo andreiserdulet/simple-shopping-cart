@@ -25,12 +25,24 @@ namespace ShoppingCart.Filters
             _logger.LogError(context.Exception, guid);
             context.ExceptionHandled = true;
 
-            if (context.Exception is InvalidParameterException)
+            if (context.Exception is InternalValidationException)
             {
-                var ex = (InvalidParameterException)context.Exception;
+                var ex = (InternalValidationException)context.Exception;
                 var response = new ErrorDto
                 {
                     Errors = new List<string> { ex.Message }
+                };
+
+                context.Result = new JsonResult(response)
+                {
+                    StatusCode = 400
+                };
+            }
+            else if (context.Exception is InternalValidationException internalValidationException)
+            {
+                var response = new ErrorDto
+                {
+                    Errors = internalValidationException.Errors
                 };
 
                 context.Result = new JsonResult(response)

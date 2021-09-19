@@ -8,6 +8,6 @@ namespace Data.Models
     public class Cart : BaseEntityModel
     {
         public CartStatus Status { get; set; }
-        public List<CartProduct> CartProducts { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

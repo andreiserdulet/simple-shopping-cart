@@ -53,12 +53,12 @@ namespace ShoppingCart.Controllers
         {
             if (pageNumber < 1)
             {
-                throw new InvalidParameterException("Invalid pageNumber argument.");
+                throw new InternalValidationException("Invalid pageNumber argument.");
             }
 
             if (pageSize < 1)
             {
-                throw new InvalidParameterException("Invalid pageSize argument.");
+                throw new InternalValidationException("Invalid pageSize argument.");
             }
             var productsFromDb = this._unitOfWork
                 .GetRepository<Product>()

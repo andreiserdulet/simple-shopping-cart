@@ -1,4 +1,5 @@
 ﻿using Data.Abstraction;
+using System.Collections.Generic;
 
 namespace Data.Models
 {
@@ -10,5 +11,6 @@ namespace Data.Models
         public decimal Price { get; set; }
         public string Category { get; set; }
         public string Image { get; set; }
+        public List<Cart> Carts { get; set; }
     }
 }

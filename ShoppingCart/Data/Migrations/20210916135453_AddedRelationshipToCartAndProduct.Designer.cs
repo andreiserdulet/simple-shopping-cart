@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210915090736_AddCartProductsRelationship")]
-    partial class AddCartProductsRelationship
+    [Migration("20210916135453_AddedRelationshipToCartAndProduct")]
+    partial class AddedRelationshipToCartAndProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,21 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CartProduct", b =>
+                {
+                    b.Property<long>("CartsId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductsId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CartsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CartProduct");
+                });
 
             modelBuilder.Entity("Data.Models.Cart", b =>
                 {
@@ -43,21 +58,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("Data.Models.CartProduct", b =>
-                {
-                    b.Property<long>("CartId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("CartId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartProduct");
                 });
 
             modelBuilder.Entity("Data.Models.Order", b =>
@@ -183,26 +183,19 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Models.CartProduct", b =>
+            modelBuilder.Entity("CartProduct", b =>
                 {
                     b.HasOne("Data.Models.Cart", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("CartsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Data.Models.Cart", b =>
-                {
-                    b.Navigation("Products");
+                    b.HasOne("Data.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
