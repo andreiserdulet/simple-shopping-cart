@@ -16,5 +16,6 @@ namespace Data.Abstraction
         T Update(T entity);
         IEnumerable<T> Find(Expression<Func<T, bool>> searchCriteria);
         IEnumerable<T> Find(Expression<Func<T, bool>> searchCriteria, int pageNumber, int pageSize);
+        IEnumerable<T> Find(Expression<Func<T, bool>> searchCriteria, string includePropertyByName);
     }
 }

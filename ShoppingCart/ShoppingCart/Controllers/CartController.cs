@@ -1,48 +1,72 @@
-﻿using FluentValidation;
+﻿
+using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using Common.Exceptions;
 using Data.Abstraction;
 using Data.Models;
 using SchoolOf.Dtos;
-using System;
-using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Controllers
 {
-    public class CartProductValidator : AbstractValidator<CartProductDto>
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CartsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly IValidator<CartProductDto> _cartValidator;
 
-        public CartProductValidator(IUnitOfWork unitOfWork)
+        public CartsController(IUnitOfWork unitOfWork, IMapper mapper, IValidator<CartProductDto> cartValidator)
         {
             _unitOfWork = unitOfWork;
-
-            RuleFor(x => x.CartId).MustAsync((cartId, cancellationToken) => CartIdIsValid(cartId));
-            RuleFor(x => x.ProductId).GreaterThan(0).MustAsync(ProductIdIsValid).WithMessage("Invalid product id.");
+            _mapper = mapper;
+            _cartValidator = cartValidator;
         }
 
-        private async Task<bool> ProductIdIsValid(long productId, CancellationToken cancellationToken)
+        [HttpPost]
+        [ProducesResponseType(typeof(CartProductDto), 200)]
+        public async Task<IActionResult> AddProductToCart([FromBody] CartProductDto cartProduct)
         {
-            var productRepo = _unitOfWork.GetRepository<Product>();
-
-            var product = await productRepo.GetByIdAsync(productId);
-
-            return product != null && !product.IsDeleted;
-        }
-
-        public async Task<bool> CartIdIsValid(long cartId)
-        {
-            if (cartId == 0)
+            var validationResult = await _cartValidator.ValidateAsync(cartProduct);
+            if (!validationResult.IsValid)
             {
-                return true;
+                throw new InternalValidationException(validationResult.Errors.Select(validationError => validationError.ErrorMessage).ToList());
             }
 
             var cartRepo = _unitOfWork.GetRepository<Cart>();
+            var productRepo = _unitOfWork.GetRepository<Product>();
 
-            var cart = await cartRepo.GetByIdAsync(cartId);
+            Cart cart = null;
 
-            return cart != null && !cart.IsDeleted && cart.Status == Common.Enums.CartStatus.Created;
+            cart = cartRepo.Find(x => x.Id == cartProduct.CartId, nameof(Cart.Products)).FirstOrDefault();
+
+            if (cart == null)
+            {
+                var product = await productRepo.GetByIdAsync(cartProduct.ProductId);
+
+                cart = new Cart
+                {
+                    Status = Common.Enums.CartStatus.Created,
+                    Products = new List<Product> { product }
+                };
+
+                cartRepo.Add(cart);
+            }
+            else
+            {
+                var product = await productRepo.GetByIdAsync(cartProduct.ProductId);
+
+                cart.Products.Add(product);
+                cartRepo.Update(cart);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return Ok(_mapper.Map<CartDto>(cart));
         }
-
-
     }
 }

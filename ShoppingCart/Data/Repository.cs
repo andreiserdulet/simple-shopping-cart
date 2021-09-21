@@ -43,7 +43,15 @@ namespace Data
                 .Take(pageSize)
                 .ToList();
         }
-
+        public IEnumerable<T> Find(Expression<Func<T, bool>> searchCriteria, string includePropertyByName)
+        {
+            var result = this._dbSet.Where(searchCriteria);
+            if (!string.IsNullOrEmpty(includePropertyByName))
+            {
+                result = result.Include(includePropertyByName);
+            }
+            return result.ToList();
+        }
         public async Task<T> GetByIdAsync(long id)
         {
             return await this._dbSet.FindAsync(id);
