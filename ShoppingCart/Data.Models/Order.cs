@@ -1,5 +1,6 @@
 ﻿
 using Data.Abstraction;
+using System.Collections.Generic;
 
 namespace Data.Models
 {
@@ -10,5 +11,6 @@ namespace Data.Models
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public decimal Total { get; set; }
+        public List<Cart> Carts { get; set; }
     }
 }

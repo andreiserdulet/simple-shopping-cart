@@ -48,6 +48,7 @@ namespace ShoppingCart.Controllers
             return Ok(myListOfProducts);
         }
         [HttpGet]
+        [Route("pagination")]
         [ProducesResponseType(typeof(IEnumerable<ProductDto>), 200)]
         public async Task<IActionResult> GetProducts(int pageNumber = 1, int pageSize = 10)
         {

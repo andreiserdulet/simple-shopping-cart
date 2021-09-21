@@ -19,12 +19,14 @@ namespace ShoppingCart.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IValidator<CartProductDto> _cartValidator;
+        private readonly Cart _cart;
 
-        public CartsController(IUnitOfWork unitOfWork, IMapper mapper, IValidator<CartProductDto> cartValidator)
+        public CartsController(IUnitOfWork unitOfWork, IMapper mapper, IValidator<CartProductDto> cartValidator, Cart cart)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _cartValidator = cartValidator;
+            _cart = cart;
         }
 
         [HttpPost]
@@ -68,5 +70,26 @@ namespace ShoppingCart.Controllers
 
             return Ok(_mapper.Map<CartDto>(cart));
         }
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<CartProductDto>), 200)]
+        public async Task<IActionResult> GetCart()
+        {
+            var cartsFromDb = this._unitOfWork
+            .GetRepository<Cart>()
+            .Find(cartProduct => !cartProduct.IsDeleted);
+            var myListOfCartProduct = _mapper.Map<List<CartDto>>(cartsFromDb);
+
+            return Ok(myListOfCartProduct);
+        }
+        [HttpDelete]
+        [Route("carts")]
+        [ProducesResponseType(typeof(IEnumerable<Cart>), 200)]
+        public async Task<IActionResult> DeleteCart()
+        {
+            
+            var cartFromDb = this._unitOfWork.GetRepository<Cart>().DeleteByIdAsync(_cart.Id);
+            return Ok(cartFromDb);
+        }
+        
     }
 }
