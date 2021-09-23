@@ -90,6 +90,5 @@ namespace ShoppingCart.Controllers
             var cartFromDb = this._unitOfWork.GetRepository<Cart>().DeleteByIdAsync(_cart.Id);
             return Ok(cartFromDb);
         }
-        
     }
 }
