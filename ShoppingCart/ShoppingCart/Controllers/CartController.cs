@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Common.Exceptions;
@@ -10,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShoppingCart.Controllers
+namespace SchoolOf.ShoppingCart.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -19,14 +18,51 @@ namespace ShoppingCart.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IValidator<CartProductDto> _cartValidator;
-        private readonly Cart _cart;
 
-        public CartsController(IUnitOfWork unitOfWork, IMapper mapper, IValidator<CartProductDto> cartValidator, Cart cart)
+        public CartsController(IUnitOfWork unitOfWork, IMapper mapper, IValidator<CartProductDto> cartValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _cartValidator = cartValidator;
-            _cart = cart;
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(typeof(CartDto), 200)]
+        public async Task<IActionResult> DeleteProductToCartAsync(CartProductDto productToCartDto)
+        {
+            var validationResult = await _cartValidator.ValidateAsync(productToCartDto);
+            if (!validationResult.IsValid)
+            {
+                throw new InternalValidationException(validationResult.Errors.Select(validationError => validationError.ErrorMessage).ToList());
+            }
+
+            var cartRepo = this._unitOfWork.GetRepository<Cart>();
+            var cartEntity = cartRepo
+                    .Find(x => !x.IsDeleted && x.Id == productToCartDto.CartId, nameof(Cart.Products))
+                    .FirstOrDefault();
+
+            cartEntity.Products.Remove(cartEntity.Products.FirstOrDefault(x => x.Id == productToCartDto.ProductId));
+
+            await this._unitOfWork.SaveChangesAsync();
+
+            return Ok(this._mapper.Map<CartDto>(cartEntity));
+        }
+
+        [HttpGet]
+        [Route("{cartId}")]
+        [ProducesResponseType(typeof(CartDto), 200)]
+        public async Task<IActionResult> GetAsync(long cartId)
+        {
+            var cart = this._unitOfWork.GetRepository<Cart>()
+                    .Find(x => !x.IsDeleted && x.Status == Common.Enums.CartStatus.Created && x.Id == cartId, nameof(Cart.Products))
+                    .FirstOrDefault();
+
+            if (cart is null)
+            {
+                throw new InternalValidationException("Invalid 'Cart id'");
+            }
+
+            return Ok(this._mapper.Map<CartDto>(cart));
         }
 
         [HttpPost]
@@ -69,26 +105,6 @@ namespace ShoppingCart.Controllers
             await _unitOfWork.SaveChangesAsync();
 
             return Ok(_mapper.Map<CartDto>(cart));
-        }
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<CartProductDto>), 200)]
-        public async Task<IActionResult> GetCart()
-        {
-            var cartsFromDb = this._unitOfWork
-            .GetRepository<Cart>()
-            .Find(cartProduct => !cartProduct.IsDeleted);
-            var myListOfCartProduct = _mapper.Map<List<CartDto>>(cartsFromDb);
-
-            return Ok(myListOfCartProduct);
-        }
-        [HttpDelete]
-        [Route("carts")]
-        [ProducesResponseType(typeof(IEnumerable<Cart>), 200)]
-        public async Task<IActionResult> DeleteCart()
-        {
-            
-            var cartFromDb = this._unitOfWork.GetRepository<Cart>().DeleteByIdAsync(_cart.Id);
-            return Ok(cartFromDb);
         }
     }
 }

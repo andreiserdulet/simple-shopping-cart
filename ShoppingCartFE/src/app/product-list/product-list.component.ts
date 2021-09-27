@@ -18,5 +18,4 @@ export class ProductListComponent implements OnInit {
       this.products = result;
     });
   }
-
 }

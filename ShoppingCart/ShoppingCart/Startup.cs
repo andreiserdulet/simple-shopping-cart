@@ -72,6 +72,8 @@ namespace ShoppingCart
 
             app.UseHttpsRedirection();
 
+            app.UseCors("defaultPoly");
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
