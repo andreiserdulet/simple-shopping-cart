@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  private readonly url = 'api/Products';
+  private readonly url = 'https://schoppingcart.azurewebsites.net/api/Products';
 
   loadProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.url);
