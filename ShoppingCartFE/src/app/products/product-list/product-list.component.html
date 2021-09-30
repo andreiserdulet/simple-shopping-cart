@@ -1,0 +1,9 @@
+
+<h1>Products</h1>
+
+<div><b>Selected ids: </b> {{selectedProducts | json}}</div>
+
+<ng-container *ngFor="let product of products">
+  <app-product [product]="product" (selected)="selected($event)"></app-product>
+</ng-container>
+

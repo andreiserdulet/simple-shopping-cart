@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://schoppingcart.azurewebsites.net",
+    "logLevel": "debug",
+    "secure": true,
+    "changeOrigin": true
+  }
+}

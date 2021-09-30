@@ -1,0 +1,19 @@
+
+<div class="d-flex justify-content-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-md-3"><b>Id:</b> {{product.id}}</div>
+      <div class="col-sm-6 col-md-3"><b>Name:</b>{{product.name}}</div>
+      <div class="col-sm-6 col-md-3"><b>Category:</b>{{product.category}}</div>
+      <div class="col-sm-6 col-md-3"><b>Price:</b>{{product.price}}</div>
+    </div>
+    <div>{{product.description}}</div>
+    <img class="col-6" [border]="1" src="data:image/jpeg;base64,{{product.image}}"/>
+  </div>
+</div>  
+<ng-container *ngIf="renderType === 'list'">
+  <div class="d-flex justify-content-center pt-3 pb-5">
+    <button (click)="selectProd(product.id)">select</button>
+    <a [routerLink]="['details']" [queryParams]="{ productId: product.id }" class="px-2"><button>view details</button></a>
+  </div>
+</ng-container>

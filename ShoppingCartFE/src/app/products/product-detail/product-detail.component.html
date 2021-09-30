@@ -1,0 +1,11 @@
+<h1>Product details</h1>
+
+<a [routerLink]="['/products']"><button>back</button></a>
+
+<ng-container *ngIf="!isLoading else loading">
+    <app-product [product]="product" [renderType]="'details'"></app-product>
+</ng-container>
+<ng-template #loading>
+    <div>Loading</div>
+</ng-template>
+
