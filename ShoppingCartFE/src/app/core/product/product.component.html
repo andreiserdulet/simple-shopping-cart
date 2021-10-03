@@ -1,22 +1,44 @@
-
 <div class="d-flex justify-content-center">
   <div class="container">
     <div class="row">
-      <div class="col-sm-6 col-md-3"><b>Id:</b> {{product.id}}</div>
-      <div class="col-sm-6 col-md-3"><b>Name:</b>{{product.name}}</div>
-      <div class="col-sm-6 col-md-3"><b>Category:</b>{{product.category}}</div>
-      <div class="col-sm-6 col-md-3"><b>Price:</b>{{product.price}}</div>
+      <div class="col-sm-6 col-md-3"><b>Id:</b> {{ product.id }}</div>
+      <div class="col-sm-6 col-md-3"><b>Name:</b>{{ product.name }}</div>
+      <div class="col-sm-6 col-md-3">
+        <b>Category:</b>{{ product.category }}
+      </div>
+      <div class="col-sm-6 col-md-3"><b>Price:</b>{{ product.price }}</div>
     </div>
-    <div>{{product.description}}</div>
-    <img class="col-6" [border]="1" src="data:image/jpeg;base64,{{product.image}}"/>
+    <div>{{ product.description }}</div>
+    <img
+      class="col-6"
+      [border]="1"
+      src="data:image/jpeg;base64,{{ product.image }}"
+    />
   </div>
-</div>  
+</div>
 <ng-container>
   <div class="d-flex justify-content-center pt-3 pb-5">
-    <button *ngIf="renderType === 'list'" (click)="selectProd(product.id)"><fa-icon [icon]="['fas', 'info-circle']" [size]="'sm'"></fa-icon>  select</button>
-    <a *ngIf="renderType === 'list'" [routerLink]="['details']" [queryParams]="{ productId: product.id }" class="px-2">
-      <button><fa-icon [icon]="['fas', 'check-circle']" [size]="'sm'"> </fa-icon> view details</button></a>
-    <button *ngIf="renderType === 'list'" (click)="addCart(product.id)"><fa-icon [icon]="['fas', 'cart-arrow-down']" [size]="'sm'"></fa-icon>  Add to Cart</button>
-    <button *ngIf="renderType === 'cart'" (click)="deleteFromCart(product.id)"><fa-icon [icon]="['fas', 'trash']" [size]="'sm'"></fa-icon>  Remove from cart</button>
+    <button *ngIf="renderType === 'list'" (click)="selectProd(product.id)">
+      <fa-icon [icon]="['fas', 'info-circle']" [size]="'sm'"></fa-icon> select
+    </button>
+    <a
+      *ngIf="renderType === 'list'"
+      [routerLink]="['details']"
+      [queryParams]="{ productId: product.id }"
+      class="px-2"
+    >
+      <button>
+        <fa-icon [icon]="['fas', 'check-circle']" [size]="'sm'"> </fa-icon> view
+        details
+      </button></a
+    >
+    <button *ngIf="renderType === 'list'" (click)="addCart(product.id)">
+      <fa-icon [icon]="['fas', 'cart-arrow-down']" [size]="'sm'"></fa-icon> Add
+      to Cart
+    </button>
+    <button *ngIf="renderType === 'cart'" (click)="deleteFromCart(product.id)">
+      <fa-icon [icon]="['fas', 'trash']" [size]="'sm'"></fa-icon> Remove from
+      cart
+    </button>
   </div>
 </ng-container>
