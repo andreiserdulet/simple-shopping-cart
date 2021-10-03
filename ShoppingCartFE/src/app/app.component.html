@@ -1,2 +1,18 @@
+<nav class="navbar fixed-top navbar-light bg-light justify-content-center">
+    <a class="navbar-brand" >Cart Application</a>
+    <a class="nav-item nav-link" [routerLink]="['']">
+        <button>
+            <fa-icon [icon]="['fas', 'list']" [size]="'sm'"> </fa-icon>
+            Product List
+        </button>
+    </a>
+    <a class="nav-item nav-link" [routerLink]="['cart']">
+        <button>
+            <fa-icon [icon]="['fas', 'shopping-cart']" [size]="'sm'"> </fa-icon>
+            View Cart <span class="bullet">{{cartItemsNo}}</span>
+        </button>
+    </a>
+</nav>
+<div class="py-5"></div>
 <router-outlet></router-outlet>
 

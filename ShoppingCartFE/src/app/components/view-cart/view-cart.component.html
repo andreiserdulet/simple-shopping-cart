@@ -1,0 +1,28 @@
+<div class="container">
+    <h1>Cart</h1>
+
+    <ng-container *ngIf="!isLoading else loading">
+        <ng-container *ngIf="cart?.products?.length  else empty">
+            <ng-container *ngFor="let item of cart.products">
+            <app-product [product]="item" [renderType]="'cart'"></app-product>
+            </ng-container>
+        </ng-container>
+        <ng-template #empty>
+            <div class="d-flex justify-content-center mb-5">
+                <h3>Cart is empty</h3><fa-icon [icon]="['fas', 'frown']" [size]="'2x'"></fa-icon>
+            </div>
+        </ng-template>
+    </ng-container>
+    <ng-template #loading>
+        <h3>Loading <fa-icon [icon]="['fas', 'spinner']" [spin]="true" [size]="'2x'"></fa-icon></h3>
+    </ng-template>
+  </div>
+
+ <div *ngIf="cart?.products?.length" class="d-flex justify-content-center"> 
+    <a [routerLink]="['order']">
+        <button>
+            <fa-icon [icon]="['fas', 'shopping-cart']" [size]="'sm'"> </fa-icon>
+            Order
+        </button>
+    </a>
+</div>

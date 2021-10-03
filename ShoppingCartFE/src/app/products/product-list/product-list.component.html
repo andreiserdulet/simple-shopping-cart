@@ -1,9 +1,17 @@
+<div class="container">
+  <h1>Products</h1>
 
-<h1>Products</h1>
+  <div><b>Selected ids: </b> {{selectedProducts | json}}</div>
 
-<div><b>Selected ids: </b> {{selectedProducts | json}}</div>
-
-<ng-container *ngFor="let product of products">
-  <app-product [product]="product" (selected)="selected($event)"></app-product>
-</ng-container>
+  <ng-container *ngIf="!isLoading else loading">
+    <ng-container *ngFor="let product of products">
+      <app-product [product]="product" (selected)="selected($event)"></app-product>
+    </ng-container>
+  </ng-container>
+  <ng-template #loading>
+    <div [@slideInOut] class="d-flex justify-content-center">
+      <h3>Loading <fa-icon [icon]="['fas', 'spinner']" [spin]="true" [size]="'2x'"></fa-icon></h3>
+    </div>
+</ng-template>
+</div>
 

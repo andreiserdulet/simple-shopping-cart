@@ -11,9 +11,12 @@
     <img class="col-6" [border]="1" src="data:image/jpeg;base64,{{product.image}}"/>
   </div>
 </div>  
-<ng-container *ngIf="renderType === 'list'">
+<ng-container>
   <div class="d-flex justify-content-center pt-3 pb-5">
-    <button (click)="selectProd(product.id)">select</button>
-    <a [routerLink]="['details']" [queryParams]="{ productId: product.id }" class="px-2"><button>view details</button></a>
+    <button *ngIf="renderType === 'list'" (click)="selectProd(product.id)"><fa-icon [icon]="['fas', 'info-circle']" [size]="'sm'"></fa-icon>  select</button>
+    <a *ngIf="renderType === 'list'" [routerLink]="['details']" [queryParams]="{ productId: product.id }" class="px-2">
+      <button><fa-icon [icon]="['fas', 'check-circle']" [size]="'sm'"> </fa-icon> view details</button></a>
+    <button *ngIf="renderType === 'list'" (click)="addCart(product.id)"><fa-icon [icon]="['fas', 'cart-arrow-down']" [size]="'sm'"></fa-icon>  Add to Cart</button>
+    <button *ngIf="renderType === 'cart'" (click)="deleteFromCart(product.id)"><fa-icon [icon]="['fas', 'trash']" [size]="'sm'"></fa-icon>  Remove from cart</button>
   </div>
 </ng-container>
