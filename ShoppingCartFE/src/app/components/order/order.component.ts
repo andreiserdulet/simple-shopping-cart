@@ -5,6 +5,13 @@ import { CartService } from 'src/app/cart/services/cart.service';
 import { OrderService } from 'src/app/cart/services/order.service';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -24,6 +31,24 @@ import { HttpClient } from '@angular/common/http';
     </form>
 
   `,
+  animations: [
+    trigger('buttonState', [
+      state(
+        'inactive',
+        style({
+          backgroundColor: 'white',
+        })
+      ),
+      state(
+        'active',
+        style({
+          backgroundColor: 'green',
+        })
+      ),
+      transition('inactive => active', animate('100ms ease-in')),
+      transition('active => inactive', animate('100ms ease-out')),
+    ]),
+  ],
   styleUrls: ['./order.component.scss'],
 })
 export class OrderComponent implements OnInit {
@@ -31,7 +56,7 @@ export class OrderComponent implements OnInit {
   public readonly url = 'https://schoppingcart.azurewebsites.net/api/Order';
   public form!: FormGroup;
   public cart!: Cart;
-
+  state: String = 'inactive';
   constructor(
     private formBuilder: FormBuilder,
     private cartService: CartService,
@@ -68,5 +93,8 @@ export class OrderComponent implements OnInit {
       phoneNo: '' + this.form.controls['phoneNo'].value,
       cartId: this.form.controls['cartId'].value,
     });
+  }
+  toggleState() {
+    this.state = this.state === 'active' ? 'inactive' : 'active';
   }
 }

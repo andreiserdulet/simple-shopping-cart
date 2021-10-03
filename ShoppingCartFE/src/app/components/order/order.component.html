@@ -110,8 +110,9 @@
     (click)="sendOrder()"
     type="submit"
     [disabled]="form.pristine || form.invalid"
+    [@buttonState]="state"
+    (click)="toggleState()"
   >
     Send Order
   </button>
 </div>
-
