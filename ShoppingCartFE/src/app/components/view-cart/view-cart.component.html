@@ -1,7 +1,8 @@
-<div class="container">
+
+<div [@fadeInAnimation] class="container">
   <h1>Cart</h1>
 
-  <ng-container  *ngIf="!isLoading; else loading">
+  <ng-container *ngIf="!isLoading; else loading">
     <ng-container *ngIf="cart?.products?.length; else empty">
       <ng-container *ngFor="let item of cart.products">
         <app-product [product]="item" [renderType]="'cart'"></app-product>
