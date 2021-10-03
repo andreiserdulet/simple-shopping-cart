@@ -105,16 +105,13 @@
 
   <p>form value: {{ form.value | json }}</p>
   <p>form status: {{ form.status | json }}</p>
-  <div>
-    <button
-      (click)="sendOrder()"
-      type="submit"
-      [disabled]="form.pristine || form.invalid"
-    >
-      Send Order
-    </button>
-    <a [routerLink]="['..']" class="px-5">
-      <button>Back</button>
-    </a>
-  </div>
+
+  <button
+    (click)="sendOrder()"
+    type="submit"
+    [disabled]="form.pristine || form.invalid"
+  >
+    Send Order
+  </button>
 </div>
+
