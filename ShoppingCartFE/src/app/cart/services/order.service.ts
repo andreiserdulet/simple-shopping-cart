@@ -11,11 +11,11 @@ export class OrderService {
   private readonly CART_ID = 'cart_id';
 
   constructor(private http: HttpClient,
-    private cartService: CartService) { 
+    private cartService: CartService) {
 
   }
 
-  private readonly url = 'api/Order';
+  private readonly url = 'https://schoppingcart.azurewebsites.net/api/Order';
 
   sendOrder(order: Order) {
     return this.http.post<Order>(this.url, order).subscribe(() => {

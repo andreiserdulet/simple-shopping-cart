@@ -12,13 +12,13 @@ export class CartService {
   private readonly CART_ID = 'cart_id';
   private cart$ = new BehaviorSubject<Cart>({id: 0, products: []});
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     if (sessionStorage.getItem(this.CART_ID)) {
       this.loadCart();
     }
   }
 
-  private readonly url = 'api/Cart';
+  private readonly url = 'https://schoppingcart.azurewebsites.net/api/Cart';
 
   public getCart(): Observable<Cart> {
     return this.cart$.asObservable();
