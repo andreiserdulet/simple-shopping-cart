@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-order',
   templateUrl: './order.component.html',
   template: `
+  {{f.value |json}}
     <form #f="ngForm" (ngSubmit) = "onSubmit(data)" novalidate>
       <input type="text" name="name" ngModel placeholder="Name">
       <br></br>
@@ -19,6 +20,7 @@ import { HttpClient } from '@angular/common/http';
       <input type="text" name=" phoneNo" ngModel placeholder="Phone Number">
       <input type="number" name="id" ngModel placeholder="Idn" readonly>
       <br></br>
+      <p> </p>
     </form>
 
   `,
