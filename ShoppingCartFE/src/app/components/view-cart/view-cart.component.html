@@ -18,11 +18,14 @@
     </ng-template>
   </div>
 
- <div *ngIf="cart?.products?.length" class="d-flex justify-content-center"> 
+ <div *ngIf="cart?.products?.length" class="d-flex justify-content-center">
     <a [routerLink]="['order']">
         <button>
             <fa-icon [icon]="['fas', 'shopping-cart']" [size]="'sm'"> </fa-icon>
             Order
         </button>
+    </a>
+    <a [routerLink]="['..']" class="px-5">
+      <button>Back</button>
     </a>
 </div>
