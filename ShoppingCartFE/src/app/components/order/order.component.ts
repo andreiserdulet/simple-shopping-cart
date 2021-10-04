@@ -5,6 +5,7 @@ import { CartService } from 'src/app/cart/services/cart.service';
 import { OrderService } from 'src/app/cart/services/order.service';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import {
   trigger,
   state,
